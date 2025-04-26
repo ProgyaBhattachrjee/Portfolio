@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import my from "../public/images/my1.jpg";
+import my from "../public/images/My1.jpg";
 
 const Page = () => {
   const [currentTitle, setCurrentTitle] = useState("Web Developer");
