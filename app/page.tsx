@@ -16,7 +16,7 @@ const Page = () => {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [titles]);
 
   return (
     <div className="home">
@@ -34,7 +34,7 @@ const Page = () => {
       </div>
       <div className="right-section">
         <div className="text-content">
-          <h2 className="sub-heading">I'm a</h2>
+          <h2 className="sub-heading">I am a</h2>
           <h1 className="main-heading">{currentTitle}</h1>
           <p className="description">
             Passionate about building beautiful and functional websites.
