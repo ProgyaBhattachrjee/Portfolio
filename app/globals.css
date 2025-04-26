@@ -1,0 +1,251 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&display=swap");
+:root {
+  --primary-color: #0e86d4;
+  --secondary-color: #68bbe3;
+  --background-color: #ffffff;
+  --text-color: #003060;
+}
+
+body {
+  background-color: var(--background-color) !important;
+  color: var(--text-color);
+}
+
+* {
+  font-family: "Montserrat", sans-serif;
+  padding: 0;
+  border: 0;
+}
+
+/* Override dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #0e86d4;
+    --secondary-color: #68bbe3;
+    --background-color: #ffffff;
+    --text-color: #003060;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+  background: linear-gradient(
+    180deg,
+    var(--primary-color),
+    var(--background-color)
+  );
+}
+
+@media (min-width: 768px) {
+  .nav {
+    flex-direction: row;
+    gap: 60%;
+  }
+}
+
+.nav h1 {
+  font-size: 2rem;
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.nav1 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+@media (min-width: 768px) {
+  .nav1 {
+    flex-direction: row;
+    gap: 30px;
+  }
+}
+
+@media (min-width: 768px) {
+  .foot1 {
+    flex-direction: row;
+  }
+}
+
+.f1 {
+  display: flex;
+  gap: 5px;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .home {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
+
+.home h1 {
+  font-size: 2.1875rem;
+  font-weight: bold;
+  background: transparent;
+  -webkit-text-fill-color: linear-gradient(
+    var(--secondary-color),
+    var(--primary-color)
+  );
+  -webkit-background-clip: text;
+  position: relative;
+  overflow: hidden;
+}
+
+.home h1::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  height: 90%;
+  width: 20%;
+  border-bottom: 3px solid #0056b3;
+  text-shadow: 0 0 10px #0056b3, 0 0 20px #0056b3, 0 0 30px #0056b3,
+    0 0 40px #0056b3, 0 0 50px #0056b3;
+  transform: translateX(-100%);
+  opacity: 1;
+  animation: anim 2s ease-in-out infinite;
+}
+
+@keyframes anim {
+  0% {
+    opacity: 1;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.home h2 {
+  font-size: 2.5rem;
+  font-style: italic;
+  font-weight: 100;
+  color: #003060;
+}
+
+.home button {
+  background: linear-gradient(var(--secondary-color), var(--primary-color));
+  padding: 10px;
+  width: 245px;
+  height: 45px;
+  border-radius: 20px;
+  margin-top: 50px;
+  color: white;
+  margin-bottom: 80px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.home button:hover {
+  background: var(--secondary-color);
+}
+
+.about p {
+  font-size: 12px;
+  padding: 20px;
+}
+
+.p2 {
+  font-family: "Nothing You Could Do", cursive;
+  font-size: 54px;
+  font-weight: lighter;
+  color: #ffffff;
+  text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color),
+    0 0 30px var(--primary-color), 0 0 40px var(--primary-color),
+    0 0 50px var(--primary-color);
+  width: fit-content;
+  margin-left: 10px;
+  animation: anim1 2s linear infinite;
+}
+
+.p1 {
+  font-family: "Nothing You Could Do", cursive;
+  color: #ffffff;
+  text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color),
+    0 0 30px var(--primary-color), 0 0 40px var(--primary-color),
+    0 0 50px var(--primary-color);
+  font-size: 38px;
+  width: fit-content;
+  margin-left: 10px;
+  animation: anim1 2s linear infinite;
+}
+
+@keyframes anim1 {
+  0% {
+    text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color),
+      0 0 30px var(--primary-color), 0 0 40px var(--primary-color),
+      0 0 50px var(--primary-color);
+  }
+  100% {
+    text-shadow: 0 0 10px var(--secondary-color),
+      0 0 20px var(--secondary-color), 0 0 30px var(--secondary-color),
+      0 0 40px var(--secondary-color), 0 0 50px var(--secondary-color);
+  }
+}
+
+.tech {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 20px;
+}
+
+.bar1 {
+  margin: 10px;
+}
+
+.home {
+  margin: 30px;
+}
+
+progress::-webkit-progress-value {
+  background: var(--secondary-color);
+}
+
+.nav img {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 20px;
+}
+
+.projects {
+  display: block;
+  margin: 50px;
+}
+
+.card {
+  position: relative;
+  margin: 5px;
+  height: 450px;
+  width: 280px;
+  background: linear-gradient(var(--secondary-color), var(--background-color));
+  border: 1px solid black;
+  border-radius: 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
