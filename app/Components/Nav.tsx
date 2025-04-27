@@ -30,9 +30,11 @@ const Nav = () => {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background: linear-gradient(135deg, #faf0e6, white);
+          background: linear-gradient(135deg, #c1d3fe, white);
           padding: 20px;
           color: black;
+          z-index: 1000;
+          position: relative;
         }
 
         .logo {
@@ -45,22 +47,43 @@ const Nav = () => {
           gap: 20px;
         }
 
-        .link {
-          color: white; /* Set the default color to white */
+        /* Stronger selector for nav links */
+        .nav-links :global(a.link) {
+          color: #111;
           font-size: 18px;
           text-decoration: none;
-          transition: 0.3s;
+          position: relative;
+          display: inline-block;
+          transition: all 0.4s ease;
+          font-weight: 500;
         }
 
-        .link:hover {
-          color: #6a49f2; /* Hover color */
+        .nav-links :global(a.link)::after {
+          content: "";
+          display: block;
+          width: 0;
+          height: 2px;
+          background: #6a49f2;
+          transition: width 0.3s;
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+        }
+
+        .nav-links :global(a.link:hover) {
+          font-size: 20px;
+          color: #6a49f2;
+          transform: translateY(-3px);
+        }
+
+        .nav-links :global(a.link:hover)::after {
+          width: 100%;
         }
 
         .profile-image-container {
           display: none;
         }
 
-        /* Mobile Responsive */
         @media (max-width: 768px) {
           .nav {
             flex-direction: column;

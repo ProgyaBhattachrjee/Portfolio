@@ -33,7 +33,7 @@ const Foot = () => {
       {/* Inline CSS */}
       <style jsx>{`
         footer {
-          background: linear-gradient(90deg, #faf0e6, white);
+          background: linear-gradient(90deg, #c1d3fe, white);
           padding: 20px 0;
           color: black;
           text-align: center;

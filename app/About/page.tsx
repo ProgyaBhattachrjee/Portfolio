@@ -4,6 +4,7 @@ import React from "react";
 const AboutPage = () => {
   return (
     <div className="about-page">
+      <div className="background-animation"></div>
       <div className="about">
         <h4>About Me</h4>
         <p>
@@ -67,6 +68,25 @@ const AboutPage = () => {
           line-height: 1.7;
           margin-bottom: 20px;
           color: black;
+        }
+        .background-animation {
+          position: absolute;
+          width: 500px;
+          height: 500px;
+          background: linear-gradient(45deg, #cdc1ff, #c1d3fe);
+          border-radius: 50%;
+          filter: blur(100px);
+          animation: move 3s ease-in-out infinite alternate;
+          z-index: 0;
+        }
+
+        @keyframes move {
+          0% {
+            transform: translate(-50%, -50%) scale(1);
+          }
+          100% {
+            transform: translate(50%, 50%) scale(1.2);
+          }
         }
 
         @media (max-width: 768px) {

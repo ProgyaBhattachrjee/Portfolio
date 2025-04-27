@@ -34,9 +34,46 @@ const Projects = () => {
       technologies: "Team Leadership, Technical Communication, Problem Solving",
     },
   ];
+  const codeSnippets = [
+    "let a = 1;",
+    "const b = 2;",
+    "()=>{}",
+    "<p>Hi</p>",
+    "i++",
+    "return x;",
+    "console.log(x);",
+    "if (ok){}",
+    "map(x=>x*x);",
+    "try{}catch(e){}",
+    "import x from 'y';",
+    "useState(0);",
+    "SELECT 1;",
+    "while(true){}",
+    "x ? y : z;",
+    "[...arr]",
+    "const sum = a+b;",
+    "`Hello ${x}`",
+    "JSON.parse(data);",
+    "fetch(url);",
+  ];
 
   return (
     <div className="projects-page">
+      <div className="code-background">
+        {codeSnippets.map((snippet, index) => (
+          <span
+            key={index}
+            className="code-snippet"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${5 + Math.random() * 10}s`,
+            }}
+          >
+            {snippet}
+          </span>
+        ))}
+      </div>
       <div className="projects">
         <h4>Technical Expertise</h4>
 
@@ -81,7 +118,38 @@ const Projects = () => {
 
       {/* Inline CSS */}
       <style jsx>{`
+        /* Floating Code Background */
+        .code-background {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          z-index: 0; /* behind everything */
+          pointer-events: none; /* make sure background is not clickable */
+        }
+
+        .code-snippet {
+          position: absolute;
+          font-size: 34px;
+          color: #a594f9;
+          white-space: nowrap;
+          animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(100vh) rotate(0deg);
+          }
+          100% {
+            transform: translateY(-100vh) rotate(360deg);
+          }
+        }
+
+        /* Main Page Styling */
         .projects-page {
+          position: relative; /* IMPORTANT to contain absolute background */
           background: white;
           min-height: 100vh;
           padding: 50px 20px;
@@ -90,8 +158,10 @@ const Projects = () => {
           align-items: center;
           justify-content: center;
           font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+          overflow: hidden; /* prevent scrollbars from floating code */
         }
 
+        /* Projects Card */
         .projects {
           max-width: 800px;
           width: 100%;
@@ -100,8 +170,11 @@ const Projects = () => {
           border-radius: 16px;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
           border: 1px solid #eaeaea;
+          position: relative; /* ensures z-index works */
+          z-index: 1; /* above background */
         }
 
+        /* Headings */
         h4 {
           font-size: 36px;
           margin-bottom: 40px;
@@ -110,6 +183,7 @@ const Projects = () => {
           color: #333;
         }
 
+        /* Skills Section */
         .skills-container {
           display: flex;
           flex-direction: column;
@@ -142,6 +216,7 @@ const Projects = () => {
           margin: 0;
         }
 
+        /* Progress Bar */
         .progress-bar {
           height: 10px;
           background: #f0f0f0;
@@ -152,7 +227,7 @@ const Projects = () => {
 
         .progress-fill {
           height: 100%;
-          background: linear-gradient(90deg, #4f6af7, #3aa8ff);
+          background: linear-gradient(90deg, #4f6af7, #f5cb5c);
           border-radius: 5px;
         }
 
@@ -163,6 +238,7 @@ const Projects = () => {
           padding-left: 75px;
         }
 
+        /* Key Skills Section */
         .key-skills {
           margin-top: 40px;
           padding: 20px;
@@ -186,6 +262,7 @@ const Projects = () => {
           color: #555;
         }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
           .projects {
             padding: 25px;
