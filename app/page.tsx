@@ -6,7 +6,12 @@ import my from "../public/images/My1.jpg";
 
 const Page = () => {
   const [currentTitle, setCurrentTitle] = useState("Web Developer");
-  const titles = ["Web Developer", "UI/UX Designer", "Tech Lover"];
+  const titles = [
+    "Web Developer",
+    "UI/UX Designer",
+    "Tech Lover",
+    "Tech Lover",
+  ];
 
   useEffect(() => {
     let index = 0;
