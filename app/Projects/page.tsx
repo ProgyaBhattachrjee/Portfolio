@@ -25,6 +25,7 @@ const projects = [
     description:
       "Smart agriculture platform with data analytics and crop planning support.",
     githubUrl: "https://github.com/ProgyaBhattachrjee/Agrobrain",
+    websiteUrl: "https://agro-brain-27up.vercel.app/",
   },
   {
     id: 1,
