@@ -1,297 +1,152 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { FiGithub, FiExternalLink, FiCode } from "react-icons/fi";
 
 const Projects = () => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  const yBg = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
+
   const skills = [
     {
-      percentage: 95,
       title: "Full-Stack Development",
-      technologies: "React.js, Node.js, Express.js, MongoDB",
+      level: 95,
+      color: "#6366F1",
+      projects: ["E-commerce Platform", "Dashboard"],
+      icon: "👨‍💻",
     },
     {
-      percentage: 90,
       title: "Frontend Engineering",
-      technologies: "TypeScript, Next.js, Tailwind CSS, HTML5/CSS",
+      level: 90,
+      color: "#EC4899",
+      projects: ["Portfolio Website", "Admin Dashboard"],
+      icon: "🎨",
     },
     {
-      percentage: 85,
       title: "Backend Development",
-      technologies: "Node.js, Express.js, REST APIs, MongoDB",
+      level: 85,
+      color: "#10B981",
+      projects: ["REST API Service"],
+      icon: "⚙️",
     },
     {
-      percentage: 80,
-      title: "Programming Languages",
-      technologies: "JavaScript, Python, Java, SQL",
+      title: "UI/UX Design",
+      level: 80,
+      color: "#F59E0B",
+      projects: ["Mobile App Design", "Website Redesign"],
+      icon: "✏️",
     },
-    {
-      percentage: 75,
-      title: "Developer Tools",
-      technologies: "Git/GitHub, VS Code, Postman, Figma",
-    },
-    {
-      percentage: 70,
-      title: "Soft Skills",
-      technologies: "Team Leadership, Technical Communication, Problem Solving",
-    },
-  ];
-  const codeSnippets = [
-    "let a = 1;",
-    "const b = 2;",
-    "()=>{}",
-    "<p>Hi</p>",
-    "i++",
-    "return x;",
-    "console.log(x);",
-    "if (ok){}",
-    "map(x=>x*x);",
-    "try{}catch(e){}",
-    "import x from 'y';",
-    "useState(0);",
-    "SELECT 1;",
-    "while(true){}",
-    "x ? y : z;",
-    "[...arr]",
-    "const sum = a+b;",
-    "`Hello ${x}`",
-    "JSON.parse(data);",
-    "fetch(url);",
   ];
 
   return (
-    <div className="projects-page">
-      <div className="code-background">
-        {codeSnippets.map((snippet, index) => (
-          <span
-            key={index}
-            className="code-snippet"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDuration: `${5 + Math.random() * 10}s`,
+    <div
+      ref={containerRef}
+      className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 to-gray-950"
+    >
+      <div className="absolute inset-0 overflow-hidden">
+        {[
+          "React",
+          "Next.js",
+          "Node",
+          "TypeScript",
+          "MongoDB",
+          "Tailwind",
+          "Figma",
+          "Git",
+        ].map((tech, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-gray-700 font-mono text-lg"
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+              rotate: Math.random() * 360,
+              opacity: 0.1,
+            }}
+            animate={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+              transition: {
+                duration: Math.random() * 20 + 20,
+                repeat: Infinity,
+                repeatType: "reverse",
+              },
             }}
           >
-            {snippet}
-          </span>
+            {`<${tech}/>`}
+          </motion.div>
         ))}
       </div>
-      <div className="projects">
-        <h4>Technical Expertise</h4>
 
-        <div className="skills-container">
+      <motion.div
+        style={{ y: yBg }}
+        className="absolute top-0 left-0 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 blur-[100px]"
+      />
+      <motion.div
+        style={{ y: yBg }}
+        className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 blur-[80px]"
+      />
+      <motion.div
+        style={{ opacity }}
+        className="container mx-auto px-6 py-32 relative z-10"
+      >
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 text-center mb-20"
+        >
+          My Technical Arsenal
+        </motion.h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
           {skills.map((skill, index) => (
-            <div key={index} className="skill-item">
-              <div className="skill-header">
-                <span className="percentage">{skill.percentage}%</span>
-                <h5 className="skill-title">{skill.title}</h5>
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 + 0.3 }}
+              className="bg-gray-800/50 backdrop-blur-md p-6 rounded-xl border border-gray-700"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-2xl">{skill.icon}</span>
+                <h3 className="text-2xl font-bold text-white">{skill.title}</h3>
+                <span
+                  className="ml-auto text-xl font-bold"
+                  style={{ color: skill.color }}
+                >
+                  {skill.level}%
+                </span>
               </div>
-              <div className="progress-bar">
-                <div
-                  className="progress-fill"
-                  style={{ width: `${skill.percentage}%` }}
-                ></div>
+
+              <div className="h-2 bg-gray-700 rounded-full mb-4 overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${skill.level}%` }}
+                  transition={{ delay: index * 0.1 + 0.5, duration: 1 }}
+                  className="h-full rounded-full"
+                  style={{ background: skill.color }}
+                />
               </div>
-              <p className="technologies">{skill.technologies}</p>
-            </div>
+
+              <div className="flex flex-wrap gap-2 mt-4">
+                {skill.projects.map((project, i) => (
+                  <span
+                    key={i}
+                    className="text-sm px-3 py-1 rounded-full bg-gray-700/50 text-gray-300"
+                  >
+                    {project}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
           ))}
         </div>
-
-        <div className="key-skills">
-          <h5>Key Technical Proficiencies:</h5>
-          <ul>
-            <li>
-              <strong>Frontend:</strong> React, Next.js, TypeScript, Responsive
-              Design
-            </li>
-            <li>
-              <strong>Backend:</strong> Node.js, API Development, Database
-              Design
-            </li>
-            <li>
-              <strong>DevOps:</strong> Version Control (Git)
-            </li>
-            <li>
-              <strong>Problem Solving:</strong> Data Structures & Algorithms
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Inline CSS */}
-      <style jsx>{`
-        /* Floating Code Background */
-        .code-background {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-          z-index: 0; /* behind everything */
-          pointer-events: none; /* make sure background is not clickable */
-        }
-
-        .code-snippet {
-          position: absolute;
-          font-size: 34px;
-          color: #a594f9;
-          white-space: nowrap;
-          animation: float 20s linear infinite;
-        }
-
-        @keyframes float {
-          0% {
-            transform: translateY(100vh) rotate(0deg);
-          }
-          100% {
-            transform: translateY(-100vh) rotate(360deg);
-          }
-        }
-
-        /* Main Page Styling */
-        .projects-page {
-          position: relative; /* IMPORTANT to contain absolute background */
-          background: white;
-          min-height: 100vh;
-          padding: 50px 20px;
-          color: black;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-          overflow: hidden; /* prevent scrollbars from floating code */
-        }
-
-        /* Projects Card */
-        .projects {
-          max-width: 800px;
-          width: 100%;
-          background: white;
-          padding: 40px;
-          border-radius: 16px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-          border: 1px solid #eaeaea;
-          position: relative; /* ensures z-index works */
-          z-index: 1; /* above background */
-        }
-
-        /* Headings */
-        h4 {
-          font-size: 36px;
-          margin-bottom: 40px;
-          font-weight: bold;
-          text-align: center;
-          color: #333;
-        }
-
-        /* Skills Section */
-        .skills-container {
-          display: flex;
-          flex-direction: column;
-          gap: 30px;
-        }
-
-        .skill-item {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .skill-header {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-        }
-
-        .percentage {
-          font-size: 24px;
-          font-weight: bold;
-          color: #222;
-          min-width: 60px;
-        }
-
-        .skill-title {
-          font-size: 20px;
-          font-weight: 600;
-          color: #444;
-          margin: 0;
-        }
-
-        /* Progress Bar */
-        .progress-bar {
-          height: 10px;
-          background: #f0f0f0;
-          border-radius: 5px;
-          overflow: hidden;
-          margin: 5px 0;
-        }
-
-        .progress-fill {
-          height: 100%;
-          background: linear-gradient(90deg, #4f6af7, #f5cb5c);
-          border-radius: 5px;
-        }
-
-        .technologies {
-          font-size: 16px;
-          color: #666;
-          margin: 0;
-          padding-left: 75px;
-        }
-
-        /* Key Skills Section */
-        .key-skills {
-          margin-top: 40px;
-          padding: 20px;
-          background: #f9f9f9;
-          border-radius: 8px;
-        }
-
-        .key-skills h5 {
-          font-size: 20px;
-          margin-bottom: 15px;
-          color: #444;
-        }
-
-        .key-skills ul {
-          padding-left: 20px;
-        }
-
-        .key-skills li {
-          margin-bottom: 8px;
-          line-height: 1.5;
-          color: #555;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-          .projects {
-            padding: 25px;
-          }
-
-          h4 {
-            font-size: 28px;
-            margin-bottom: 30px;
-          }
-
-          .percentage {
-            font-size: 20px;
-            min-width: 50px;
-          }
-
-          .skill-title {
-            font-size: 18px;
-          }
-
-          .technologies {
-            padding-left: 65px;
-            font-size: 14px;
-          }
-
-          .key-skills {
-            padding: 15px;
-          }
-        }
-      `}</style>
+      </motion.div>
     </div>
   );
 };

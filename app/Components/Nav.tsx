@@ -1,109 +1,202 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FiMenu,
+  FiX,
+  FiGithub,
+  FiLinkedin,
+  FiTwitter,
+  FiMail,
+} from "react-icons/fi";
 
-const Nav = () => {
+interface NavLink {
+  name: string;
+  path: string;
+}
+
+const Nav: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hoveredLink, setHoveredLink] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const links: NavLink[] = [
+    { name: "Home", path: "/" },
+    { name: "About Me", path: "/About" },
+    { name: "Skills", path: "/Skill" },
+    { name: "Projects", path: "/Projects" },
+    { name: "Designs", path: "/Designs" },
+  ];
+
+  const socialLinks = [
+    {
+      icon: <FiGithub size={20} />,
+      url: "https://github.com/ProgyaBhattachrjee",
+      label: "GitHub",
+    },
+    {
+      icon: <FiLinkedin size={20} />,
+      url: "https://www.linkedin.com/in/progya-bhattacharjee-427149298",
+      label: "LinkedIn",
+    },
+    {
+      icon: <FiMail size={20} />,
+      url: "mailto:progya56@gmail.com",
+      label: "Email",
+    },
+  ];
+
+  const mobileSocialLinks = [
+    {
+      icon: <FiGithub size={24} />,
+      url: "https://github.com/ProgyaBhattachrjee",
+      label: "GitHub",
+    },
+    {
+      icon: <FiLinkedin size={24} />,
+      url: "https://www.linkedin.com/in/progya-bhattacharjee-427149298",
+      label: "LinkedIn",
+    },
+  ];
+
   return (
-    <nav className="nav">
-      <h1 className="logo">Progya.</h1>
-      <p className="nav-links">
-        <Link className="link" href="/">
-          Home
-        </Link>
-        <Link className="link" href="/About">
-          About Me
-        </Link>
-        <Link className="link" href="/Skill">
-          Skill
-        </Link>
-        <Link className="link" href="/Projects">
-          Projects
-        </Link>
-        <Link className="link" href="/Designs">
-          Designs
-        </Link>
-      </p>
+    <>
+      <motion.nav
+        className={`fixed w-full z-50 transition-colors duration-300 ${
+          scrolled ? "bg-black/80 backdrop-blur" : "bg-transparent"
+        }`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      >
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link href="/" className="flex items-center">
+                <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+                  Progya<span className="text-white">.</span>
+                </span>
+              </Link>
+            </motion.div>
+            <div className="hidden md:flex items-center gap-8">
+              {links.map((link, index) => (
+                <motion.div
+                  key={link.path}
+                  onHoverStart={() => setHoveredLink(index)}
+                  onHoverEnd={() => setHoveredLink(null)}
+                  className="relative cursor-pointer"
+                >
+                  <Link
+                    href={link.path}
+                    className={`relative z-10 px-2 py-1 text-lg font-medium transition-colors ${
+                      hoveredLink === index ? "text-white" : "text-gray-300"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                  <AnimatePresence>
+                    {hoveredLink === index && (
+                      <motion.span
+                        layoutId="navHover"
+                        className="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 rounded-lg"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                      />
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+              <div className="flex gap-4 ml-6">
+                {socialLinks.map(({ icon, url, label }, idx) => (
+                  <motion.a
+                    key={idx}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    whileHover={{ y: -3 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="text-gray-300 hover:text-white"
+                  >
+                    {icon}
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+            <motion.button
+              className="md:hidden text-white z-50"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={isOpen}
+            >
+              {isOpen ? <FiX size={28} /> : <FiMenu size={28} />}
+            </motion.button>
+          </div>
+        </div>
+      </motion.nav>
 
-      {/* Inline CSS */}
-      <style jsx>{`
-        .nav {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          background: linear-gradient(135deg, #c1d3fe, white);
-          padding: 20px;
-          color: black;
-          z-index: 1000;
-          position: relative;
-        }
-
-        .logo {
-          font-size: 32px;
-          font-weight: 700;
-        }
-
-        .nav-links {
-          display: flex;
-          gap: 20px;
-        }
-
-        /* Stronger selector for nav links */
-        .nav-links :global(a.link) {
-          color: #111;
-          font-size: 18px;
-          text-decoration: none;
-          position: relative;
-          display: inline-block;
-          transition: all 0.4s ease;
-          font-weight: 500;
-        }
-
-        .nav-links :global(a.link)::after {
-          content: "";
-          display: block;
-          width: 0;
-          height: 2px;
-          background: #6a49f2;
-          transition: width 0.3s;
-          position: absolute;
-          bottom: -5px;
-          left: 0;
-        }
-
-        .nav-links :global(a.link:hover) {
-          font-size: 20px;
-          color: #6a49f2;
-          transform: translateY(-3px);
-        }
-
-        .nav-links :global(a.link:hover)::after {
-          width: 100%;
-        }
-
-        .profile-image-container {
-          display: none;
-        }
-
-        @media (max-width: 768px) {
-          .nav {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-
-          .profile-image-container {
-            display: block;
-            margin-top: 20px;
-          }
-
-          .profile-image {
-            border-radius: 8px;
-            object-fit: cover;
-            width: 100%;
-            height: auto;
-          }
-        }
-      `}</style>
-    </nav>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 pt-24 px-6 bg-black/60 backdrop-blur-md"
+          >
+            <div className="flex flex-col items-center gap-8">
+              {links.map((link) => (
+                <motion.div
+                  key={link.path}
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -30, opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                >
+                  <Link
+                    href={link.path}
+                    className="text-3xl font-medium text-white hover:text-purple-400 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
+              ))}
+              <div className="flex gap-6 mt-12">
+                {mobileSocialLinks.map(({ icon, url, label }, index) => (
+                  <motion.a
+                    key={index}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    transition={{ delay: 0.1 * index, type: "spring" }}
+                    className="text-white hover:text-purple-400"
+                  >
+                    {icon}
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

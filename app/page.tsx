@@ -1,217 +1,148 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import my from "../public/images/My1.jpg";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+import { FiArrowRight, FiDownload } from "react-icons/fi";
 
 const Page = () => {
-  const [currentTitle, setCurrentTitle] = useState("Web Developer");
-  const titles = [
-    "Web Developer",
-    "UI/UX Designer",
-    "Tech Lover",
-    "Tech Lover",
-  ];
+  const [currentTitle, setCurrentTitle] = useState(0);
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
-    let index = 0;
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+  }, []);
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [0, -200]);
+
+  const titles = [
+    { text: "WEB DEVELOPER", color: "#FF4D4D" },
+    { text: "UI/UX DESIGNER", color: "#9B66E7" },
+    { text: "AI ENTHUSIAST", color: "#4DFF4D" },
+  ];
+  const particles = Array(30).fill(0);
+  useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTitle(titles[index]);
-      index = (index + 1) % titles.length;
+      setCurrentTitle((prev) => (prev + 1) % titles.length);
     }, 2000);
-
     return () => clearInterval(interval);
-  }, [titles]);
-
+  }, []);
   return (
-    <div className="home">
-      <div className="left-section"></div>
-      <div className="center-image">
-        <div className="image-background">
-          <Image
-            src={my}
-            width={300}
-            height={450}
-            alt="My Photo"
-            className="profile-image"
-          />
+    <div className="min-h-screen overflow-hidden relative" ref={containerRef}>
+      {particles.map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full bg-white/10 backdrop-blur-sm"
+          initial={{
+            x: Math.random() * windowSize.width,
+            y: Math.random() * windowSize.width,
+            scale: Math.random() * 0.5 + 0.5,
+          }}
+          animate={{
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            transition: {
+              duration: Math.random() * 10 + 10,
+              repeat: Infinity,
+              repeatType: "reverse",
+            },
+          }}
+          style={{
+            width: Math.random() * 15 + 5,
+            height: Math.random() * 15 + 5,
+          }}
+        />
+      ))}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-purple-600/20 blur-[100px] opacity-70" />
+
+      <div className="container mx-auto px-6 py-24 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <motion.div
+            className="relative"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-pink-500 rounded-3xl rotate-6 blur-md opacity-70" />
+            <div className="relative border-8 border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+              <Image
+                src={my}
+                width={500}
+                height={700}
+                alt="My Photo"
+                className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+            </div>
+          </motion.div>
+          <motion.div style={{ y }} className="space-y-8">
+            <AnimatePresence mode="wait">
+              <motion.h1
+                key={currentTitle}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+                className="text-6xl md:text-7xl font-extrabold bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: `linear-gradient(45deg, ${titles[currentTitle].color}, ${titles[currentTitle].color}80)`,
+                }}
+              >
+                {titles[currentTitle].text}
+              </motion.h1>
+            </AnimatePresence>
+
+            <p className="text-xl text-gray-300 max-w-lg">
+              Crafting immersive digital experiences that blend cutting-edge
+              technology with artistic vision. Your brand deserves more than
+              just a website—it deserves an experience.
+            </p>
+
+            <div className="flex gap-4">
+              <motion.a
+                href="https://drive.google.com/file/d/1RNl1oD_evvQXtkVtkLVafKpmLHAyi9Di/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full text-white font-semibold shadow-lg hover:shadow-xl transition-all"
+              >
+                <FiDownload /> DOWNLOAD CV
+              </motion.a>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white font-semibold hover:bg-white/20 transition-all"
+              >
+                SEE MY WORK <FiArrowRight />
+              </motion.button>
+            </div>
+          </motion.div>
         </div>
       </div>
-      <div className="right-section">
-        <div className="text-content">
-          <h2 className="sub-heading">I am a</h2>
-          <h1 className="main-heading">{currentTitle}</h1>
-          <p className="description">
-            Passionate about building beautiful and functional websites.
-          </p>
-
-          <div className="buttons">
-            <a
-              href="https://drive.google.com/file/d/1RNl1oD_evvQXtkVtkLVafKpmLHAyi9Di/view?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
+      <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-4">
+        {["React", "Express", "Node.js", "Mongodb", "SQL", "JAVA"].map(
+          (tech) => (
+            <motion.div
+              key={tech}
+              className="px-4 py-2 bg-black/50 backdrop-blur-md rounded-full text-sm text-white border border-white/10"
+              whileHover={{ y: -5 }}
             >
-              <button className="resume-btn">Resume</button>
-            </a>
-          </div>
-        </div>
+              {tech}
+            </motion.div>
+          )
+        )}
       </div>
-      <style jsx>{`
-        .home {
-          display: flex;
-          height: 100vh;
-          position: relative;
-          font-family: "Poppins", sans-serif;
-          flex-wrap: wrap;
-        }
-
-        .left-section {
-          flex: 1;
-          background: black;
-          min-height: 100vh;
-        }
-
-        .right-section {
-          flex: 1;
-          background: #f9f9fc;
-          padding: 60px 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-        }
-
-        .center-image {
-          position: absolute;
-          top: 50%;
-          left: 40%;
-          transform: translate(-50%, -50%);
-          z-index: 10;
-        }
-
-        .image-background {
-          background: linear-gradient(135deg, #6a49f2, black);
-          padding: 12px;
-          border-radius: 12px;
-          box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .profile-image {
-          border-radius: 8px;
-          object-fit: cover;
-          width: 100%;
-          height: auto;
-        }
-
-        .text-content {
-          text-align: left;
-          max-width: 500px;
-        }
-
-        .sub-heading {
-          font-size: 50px;
-          color: #d3d3d3;
-          margin-bottom: 10px;
-        }
-
-        .description {
-          font-size: 16px;
-          color: #777;
-          margin-bottom: 40px;
-        }
-
-        .buttons {
-          margin-top: 20px;
-        }
-
-        .resume-btn {
-          padding: 12px 30px;
-          background: #6a49f2;
-          color: white;
-          border: none;
-          border-radius: 30px;
-          font-size: 16px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: 0.3s;
-        }
-
-        .resume-btn:hover {
-          background: #9b66e7;
-        }
-
-        /* -------- Mobile Responsive Fix --------- */
-        @media (max-width: 768px) {
-          .home {
-            flex-direction: column;
-            height: auto;
-            padding: 0;
-          }
-
-          .left-section,
-          .right-section {
-            width: 100%;
-            flex: none;
-          }
-
-          .left-section {
-            min-height: 0;
-          }
-
-          .right-section {
-            padding: 40px 20px;
-            height: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-          }
-
-          .center-image {
-            position: relative;
-            top: 100px;
-            left: auto;
-            transform: none;
-            margin-top: -60px;
-          }
-
-          .text-content {
-            text-align: center;
-          }
-
-          .sub-heading {
-            font-size: 36px;
-          }
-
-          .main-heading {
-            font-size: 42px;
-          }
-
-          .resume-btn {
-            width: 100%;
-          }
-        }
-
-        .main-heading {
-          font-size: 60px;
-          color: #111;
-          margin-bottom: 20px;
-          opacity: 0;
-          transform: translateY(50px);
-          animation: slideIn 1.5s ease-out forwards;
-        }
-
-        @keyframes slideIn {
-          0% {
-            opacity: 0;
-            transform: translateY(50px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </div>
   );
 };
