@@ -49,41 +49,6 @@ const Projects = () => {
       ref={containerRef}
       className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 to-gray-950"
     >
-      <div className="absolute inset-0 overflow-hidden">
-        {[
-          "React",
-          "Next.js",
-          "Node",
-          "TypeScript",
-          "MongoDB",
-          "Tailwind",
-          "Figma",
-          "Git",
-        ].map((tech, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-gray-700 font-mono text-lg"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              rotate: Math.random() * 360,
-              opacity: 0.1,
-            }}
-            animate={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              transition: {
-                duration: Math.random() * 20 + 20,
-                repeat: Infinity,
-                repeatType: "reverse",
-              },
-            }}
-          >
-            {`<${tech}/>`}
-          </motion.div>
-        ))}
-      </div>
-
       <motion.div
         style={{ y: yBg }}
         className="absolute top-0 left-0 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 blur-[100px]"
