@@ -161,14 +161,14 @@ const ProjectsPage = () => {
           Like what you see?
         </h3>
         <p className="text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
-          I'm available for UI/UX design projects and would love to discuss your
-          ideas.
+          I am available for UI/UX design projects and would love to discuss
+          your ideas.
         </p>
         <a
           href="mailto:progya56@gmail.com"
           className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-full text-lg font-medium transition-colors"
         >
-          Let's Design Something Amazing
+          Let us Design Something Amazing
           <FiExternalLink />
         </a>
       </motion.div>
