@@ -140,7 +140,7 @@ const ProjectsPage = () => {
                 href={project.designUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-colors text-white hover:opacity-90`}
+                className="inline-flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-colors text-white hover:opacity-90"
                 style={{ backgroundColor: project.accentColor }}
               >
                 <FiFigma /> View in Figma

@@ -210,6 +210,7 @@ const ProjectsPage = () => {
                       <a
                         href={project.githubUrl}
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="text-gray-400 hover:text-white transition-colors"
                         title="View Code"
                       >
@@ -220,6 +221,7 @@ const ProjectsPage = () => {
                       <a
                         href={project.websiteUrl}
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="text-gray-400 hover:text-white transition-colors"
                         title="Live Demo"
                       >

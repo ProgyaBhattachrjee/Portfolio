@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const AboutPage = () => {
@@ -84,10 +85,12 @@ const AboutPage = () => {
               }}
               className="relative border-8 border-white/10 rounded-3xl overflow-hidden shadow-2xl"
             >
-              <img
+              <Image
                 src="/images/My1.jpg"
                 alt="Progya Bhattacharjee"
-                className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                width={600}
+                height={800}
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
             </motion.div>
@@ -108,7 +111,7 @@ const AboutPage = () => {
               transition={{ delay: 0.4 }}
               className="text-lg text-gray-300 leading-relaxed"
             >
-              I'm{" "}
+              I&apos;m{" "}
               <span className="text-white font-medium">
                 Progya Bhattacharjee
               </span>

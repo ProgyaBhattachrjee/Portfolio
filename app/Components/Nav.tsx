@@ -2,14 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  FiMenu,
-  FiX,
-  FiGithub,
-  FiLinkedin,
-  FiTwitter,
-  FiMail,
-} from "react-icons/fi";
+import { FiMenu, FiX, FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 
 interface NavLink {
   name: string;

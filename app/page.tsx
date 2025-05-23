@@ -14,10 +14,9 @@ import { FiArrowRight, FiDownload } from "react-icons/fi";
 const Page = () => {
   const [currentTitle, setCurrentTitle] = useState(0);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
+  const [particlePositions, setParticlePositions] = useState<
+    { x: number; y: number; scale: number; size: number }[]
+  >([]);
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -31,38 +30,49 @@ const Page = () => {
     { text: "AI ENTHUSIAST", color: "#4DFF4D" },
   ];
   const particles = Array(30).fill(0);
+
+  useEffect(() => {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+  }, []);
+
+  useEffect(() => {
+    if (windowSize.width === 0) return;
+    const positions = particles.map(() => ({
+      x: Math.random() * windowSize.width,
+      y: Math.random() * windowSize.height,
+      scale: Math.random() * 0.5 + 0.5,
+      size: Math.random() * 15 + 5,
+    }));
+    setParticlePositions(positions);
+  }, [windowSize]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTitle((prev) => (prev + 1) % titles.length);
     }, 2000);
     return () => clearInterval(interval);
   }, []);
+
   return (
     <div className="min-h-screen overflow-hidden relative" ref={containerRef}>
-      {particles.map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full bg-white/10 backdrop-blur-sm"
-          initial={{
-            x: Math.random() * windowSize.width,
-            y: Math.random() * windowSize.width,
-            scale: Math.random() * 0.5 + 0.5,
-          }}
-          animate={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            transition: {
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              repeatType: "reverse",
-            },
-          }}
-          style={{
-            width: Math.random() * 15 + 5,
-            height: Math.random() * 15 + 5,
-          }}
-        />
-      ))}
+      {windowSize.width > 0 &&
+        particlePositions.map(({ x, y, scale, size }, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-white/10 backdrop-blur-sm"
+            initial={{ x, y, scale }}
+            animate={{
+              x: Math.random() * windowSize.width,
+              y: Math.random() * windowSize.height,
+              transition: {
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                repeatType: "reverse",
+              },
+            }}
+            style={{ width: size, height: size }}
+          />
+        ))}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-purple-600/20 blur-[100px] opacity-70" />
 
       <div className="container mx-auto px-6 py-24 relative z-10">
