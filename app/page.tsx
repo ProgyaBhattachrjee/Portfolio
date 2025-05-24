@@ -128,14 +128,6 @@ const Page = () => {
               >
                 <FiDownload /> DOWNLOAD CV
               </motion.a>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white font-semibold hover:bg-white/20 transition-all"
-              >
-                SEE MY WORK <FiArrowRight />
-              </motion.button>
             </div>
           </motion.div>
         </div>

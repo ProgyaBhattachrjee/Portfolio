@@ -1,6 +1,7 @@
 "use client";
-import React, { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   FiGithub,
   FiExternalLink,
@@ -94,164 +95,138 @@ const projects = [
 ];
 
 const ProjectsPage = () => {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-
-  const yBg = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
-
   const [showAll, setShowAll] = useState(false);
   const displayedProjects = showAll
     ? projects
     : projects.filter((p) => p.featured);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 to-gray-950"
-    >
-      <motion.div
-        style={{ y: yBg }}
-        className="absolute top-0 left-0 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 blur-[100px]"
-      />
-      <motion.div
-        style={{ y: yBg }}
-        className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 blur-[80px]"
-      />
-      <motion.div
-        style={{ opacity }}
-        className="container mx-auto px-6 py-32 relative z-10"
-      >
-        <motion.h1
+    <div className="relative min-h-screen bg-gray-900">
+      <div className="container mx-auto px-6 py-32 relative z-10">
+        <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 100, damping: 20 }}
-          className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 text-center mb-6"
+          className="text-center mb-16"
         >
-          My Projects
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="text-xl text-gray-300 text-center max-w-3xl mx-auto mb-16"
-        >
-          Here are some of my featured projects. Each one represents unique
-          challenges and creative solutions.
-        </motion.p>
+          <h1 className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 mb-4">
+            My Projects
+          </h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Here are some of my featured projects. Each one represents unique
+            challenges and creative solutions.
+          </p>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.3 }}
+          className="flex items-center justify-center gap-3 mb-12"
         >
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 mb-8"
-          >
-            <FiStar className="text-yellow-400 text-2xl animate-pulse" />
-            <h2 className="text-3xl font-bold text-white">
-              {showAll ? "All Projects" : "Featured Projects"}
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayedProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: index * 0.15,
-                  duration: 0.7,
-                  ease: "easeOut",
-                }}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="bg-gray-800/50 backdrop-blur-md rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 shadow-xl hover:shadow-purple-500/30 transition-all duration-300"
-              >
-                <motion.div
-                  className="h-48 flex items-center justify-center overflow-hidden bg-gradient-to-br from-purple-500/10 to-pink-500/10"
-                  whileHover={{ scale: 1.03 }}
-                >
-                  <img
-                    src={project.imageUrl.src}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500"
-                  />
-                </motion.div>
-                <div className="p-5">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-300 text-sm mb-4">
-                    {project.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag, i) => (
-                      <motion.span
-                        key={i}
-                        whileHover={{ scale: 1.1 }}
-                        className="text-xs px-2 py-1 rounded bg-gray-700 text-gray-300"
-                      >
-                        {tag}
-                      </motion.span>
-                    ))}
-                  </div>
-
-                  <div className="flex gap-3">
-                    {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-white transition-colors"
-                        title="View Code"
-                      >
-                        <FiGithub size={20} />
-                      </a>
-                    )}
-                    {project.websiteUrl && (
-                      <a
-                        href={project.websiteUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-white transition-colors"
-                        title="Live Demo"
-                      >
-                        <FiExternalLink size={20} />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.2, duration: 0.5 }}
-            className="flex justify-center mt-12"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowAll((prev) => !prev)}
-              className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-500 hover:to-pink-500 transition-colors"
-            >
-              {showAll ? "Show Featured" : "See More Projects"}
-              {showAll ? <FiChevronUp /> : <FiChevronDown />}
-            </motion.button>
-          </motion.div>
+          <FiStar className="text-yellow-400 text-2xl animate-pulse" />
+          <h2 className="text-3xl font-bold text-white">
+            {showAll ? "All Projects" : "Featured Projects"}
+          </h2>
         </motion.div>
-      </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {displayedProjects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                delay: index * 0.15,
+                duration: 0.7,
+                ease: "backOut",
+              }}
+              whileHover={{
+                y: -8,
+                scale: 1.02,
+                boxShadow: "0 20px 25px -5px rgba(168, 85, 247, 0.2)",
+              }}
+              className="bg-gray-800/80 backdrop-blur-md rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-all duration-300 relative"
+            >
+              <div className="h-48 overflow-hidden relative">
+                <Image
+                  src={project.imageUrl}
+                  alt={project.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              </div>
+
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-white mb-2">
+                  {project.title}
+                </h3>
+                <p className="text-gray-300 text-sm mb-4">
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.tags.map((tag, i) => (
+                    <span
+                      key={i}
+                      className="text-xs px-2 py-1 rounded bg-gray-700 text-gray-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-3">
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-white transition-colors"
+                      title="View Code"
+                    >
+                      <FiGithub size={20} />
+                    </a>
+                  )}
+                  {project.websiteUrl && (
+                    <a
+                      href={project.websiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-white transition-colors"
+                      title="Live Demo"
+                    >
+                      <FiExternalLink size={20} />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="flex justify-center mt-16"
+        >
+          <button
+            onClick={() => setShowAll((prev) => !prev)}
+            className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-500 hover:to-pink-500 transition-all"
+          >
+            {showAll ? (
+              <>
+                <FiChevronUp /> Show Featured
+              </>
+            ) : (
+              <>
+                <FiChevronDown /> See More Projects
+              </>
+            )}
+          </button>
+        </motion.div>
+      </div>
     </div>
   );
 };

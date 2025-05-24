@@ -16,7 +16,6 @@ const AboutPage = () => {
   });
 
   const yBg = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
 
   const skills = [
     { name: "React", level: 90 },
@@ -69,10 +68,7 @@ const AboutPage = () => {
         style={{ y: yBg }}
         className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 blur-[80px]"
       />
-      <motion.div
-        style={{ opacity }}
-        className="container mx-auto px-6 py-32 relative z-10"
-      >
+      <div className="container mx-auto px-6 py-32 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-pink-500 rounded-3xl rotate-6 blur-md opacity-70" />
@@ -165,7 +161,7 @@ const AboutPage = () => {
             </motion.div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
