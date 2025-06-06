@@ -29,7 +29,6 @@ const AboutPage = () => {
       ref={containerRef}
       className="relative min-h-screen overflow-hidden bg-gray-50"
     >
-      {/* Subtle background elements */}
       <motion.div
         style={{ y: yBg }}
         className="absolute top-0 left-0 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-blue-50 to-purple-50 blur-[100px]"
@@ -38,11 +37,8 @@ const AboutPage = () => {
         style={{ y: yBg }}
         className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-green-50 to-cyan-50 blur-[80px]"
       />
-
-      {/* Main content */}
       <div className="container mx-auto px-6 py-32 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Profile image */}
           <div className="relative">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
@@ -64,8 +60,6 @@ const AboutPage = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
             </motion.div>
           </div>
-
-          {/* Text content */}
           <div className="space-y-8">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -83,7 +77,7 @@ const AboutPage = () => {
               className="space-y-6 text-gray-700"
             >
               <p>
-                I'm{" "}
+                I&apos;m{" "}
                 <span className="font-semibold text-gray-900">
                   Progya Bhattacharjee
                 </span>
